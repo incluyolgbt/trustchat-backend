@@ -15,7 +15,11 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  service.requestType(req, res);
+  try{
+    await service.requestType(req, res);
+  }catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = router;

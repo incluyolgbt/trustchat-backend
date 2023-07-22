@@ -14,7 +14,7 @@ class Webhook {
   // 
   // Responder: dependiendo de la opcion 
   // para chat de confianza mandar a otro numero de asesor 
-  requestType(req, res){
+  async requestType(req, res){
     if (req.body.entry[0].changes[0].value.statuses) { // mensaje enviado
       console.log(req.body.entry[0].changes[0].value.statuses[0].status);
     } else {
@@ -38,7 +38,7 @@ class Webhook {
     }
   }
 
-  isNotInDB(Id){
+  async isNotInDB(Id){
     if(!(messagesId.includes(Id))){
       return true;
     }
@@ -48,7 +48,7 @@ class Webhook {
     return 'message'
   }
   
-  answer(num) {
+  async answer(num) {
 
     fetch('',
 
@@ -74,7 +74,7 @@ class Webhook {
 
   }
 
-  read(messageId) {
+  async read(messageId) {
     fetch('',
 
       {
