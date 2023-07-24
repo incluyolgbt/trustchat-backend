@@ -1,51 +1,62 @@
-const messagesId = require('./data');
+const {find, addToDB} = require('./../services/database.service');
+
+const token = 'Bearer '
 
 class Webhook {
-
-  // definir que tipo es: status o message
-
-  // si es menssaje que tipo de mensaje es: texto, multimedia, etc. 
-  // guardar en DB para no mandar mas mensajes 
-  // colocar en leido cuando se haga algo con ese mensaje 
-  // Usuarie manda mensaje: contestar con template de chatbot 
-  //      chatbot: quieres apoyo inmediato (chatbot salud mental)
-  //    quieres agendar un chat de confianza 
-  //quieres terapia 
-  // 
-  // Responder: dependiendo de la opcion 
-  // para chat de confianza mandar a otro numero de asesor 
-  async requestType(req, res){
+  
+  async requestType(req, res){ //tipo status
     if (req.body.entry[0].changes[0].value.statuses) { // mensaje enviado
+      // estrategia para determinar el status de los mensajes enviados 
       console.log(req.body.entry[0].changes[0].value.statuses[0].status);
-    } else {
-      console.log( // mensaje recibido 
-        req.body.entry[0].changes[0].value.messages[0].text.body);
+    } else { 
+      //next();
+      await this.messageType(req, res);
 
       res.status(200);
+  
+    }
+  }
+  
+  async messageType(req, res){
 
-      //messageId
-      const messageId = String(
-        req.body.entry[0].changes[0].value.messages[0].id
-      );
+    //Check out which type of message had been recieved 
+    const type = req.body.entry[0].changes[0].value.messages[0].type;
+    const messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
+    var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
+    const messageId = req.body.entry[0].changes[0].value.messages[0].id;
+    const messageContent = req.body.entry[0].changes[0].value.messages[0];
 
-      //In case DB does not have message id then send response and mask as read
-      if(this.isNotInDB(messageId)){
-        this.read(messageId);
-        this.answer(NUM);
-        messagesId.push(messageId);
+    // convert timestamp to date 
+    var date = new Date(messageTimestamp * 1000).toISOString();
+    messageTimestamp = date
+    
+    const existance = await find(messageId);
+  
+    
+    switch (type){
+        case 'text':
+          //logica de texto
+          //For text type messages
+
+          //In case DB does not have message id then send response and mask as read
+        // Este sera otro middleware
+          if(existance.length === 0){
+            this.read(messageId);
+            this.answer(''); // presenta un error el messageFrom 
+            await addToDB(type,
+                        messageFrom,
+                        messageTimestamp,
+                        messageId,
+                        messageContent[type]); //conexion con base de datos para agregar
+          }
+
+          break;
+        case 'image':
+          //For image type message
+          break;
+        default:
+          break;
       }
-  
-    }
-  }
-
-  async isNotInDB(Id){
-    if(!(messagesId.includes(Id))){
-      return true;
-    }
-  }
-  
-  messageType(){
-    return 'message'
   }
   
   async answer(num) {
@@ -66,11 +77,11 @@ class Webhook {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer '
+          'Authorization': token
         }
       }).then(res => res.json())
       .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+      .then(response => console.log('Success answering'));
 
   }
 
@@ -86,11 +97,11 @@ class Webhook {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer '
+          'Authorization': token
         }
       }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+      .then(response => console.log('Success marking as read'))
+      .catch(error => console.error('Error:', error));
   }
 
 }

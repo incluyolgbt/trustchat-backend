@@ -14,6 +14,9 @@ const routerApi = require('./routes');
 
 routerApi(app);
 
+// middleware de validacion de mensaje 
+// middleware de error 
+
 app.listen(3000, () => {
   console.log('Mi port 3000')
 });
