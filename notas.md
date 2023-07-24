@@ -16,3 +16,13 @@
   checar supabase
 
   DB: soMjow-honmip-despu2
+
+
+  
+
+buscar con regex el 521 para que solo sea 52 para no dañar numeros de otros paises. String.replace();
+
+usar momentjs para el timestamp 
+
+let cstTime = new Date(createdAt).toLocaleString({
+    timeZone: "America/Mexico_City" });

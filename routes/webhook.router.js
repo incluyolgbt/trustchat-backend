@@ -16,7 +16,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try{
-    const reqType = await service.requestType(req, res);
+    res.status(200);
+    next(); //requestType
   }catch (error) {
     console.error(error);
   }
