@@ -5,7 +5,7 @@ const token = 'Bearer '
 class Webhook {
 
   async answer(num, message) {
-    console.log('answer');
+    //console.log('answer');
     try {
       await fetch('',
 
@@ -34,8 +34,8 @@ class Webhook {
 
   async read(messageId) {
 
-    console.log('read');
-    
+    //console.log('read');
+
     try {
 
       await fetch('',

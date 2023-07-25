@@ -23,3 +23,13 @@ moment().format('MMMM Do YYYY, h:mm:ss a');
 checar la nueva arqui 
 
 Trabajar en frontend probar conexion y UI beta  
+
+el api arroja un 404 pero si manda datos y todo por que?
+
+ya se hizo el post para el cliente UI 
+hay problemas con id porque no se genera hasta que llega a whats
+como manejar los from y to's
+
+esto se soluciona mandando el mismo id que recibe el cliente para la peticion a la api para mostrar como leido (se muestra leido hasta que es conestado)
+
+  en UI se tendra que checar como filtrar para que solo aparezca los datos correctos y no repetidos. 

@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
-  
+  console.log('CLIENT')
   res.status(200);
   try {
     console.log('mensaje del cliente web');
