@@ -1,0 +1,40 @@
+// usar este formato de JSON
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "116926351467394",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "15550758313",
+              "phone_number_id": "114329885063727"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "DanielMC"
+                },
+                "wa_id": "5213511507240"
+              }
+            ],
+            "messages": [
+              {
+                "from": "5213511507240",
+                "id": "wamid.HBgNNTIxMzUxMTUwNzI0MBUCABIYFDNBRkZGM0QzNkVCNTI4Mzc0MDJBAA==",
+                "timestamp": "1690302479",
+                "text": {
+                  "body": "Hola"
+                },
+                "type": "text"
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

@@ -4,17 +4,19 @@ const { find, addToDB } = require('./../services/database.service.js');
 const webhook = new Webhook();
 
 function requestType(req, res, next) { //tipo status
+  console.log('requestType');
   if (req.body.entry[0].changes[0].value.statuses) {
     //algo
   } else {
 
+    const from = req.body.entry[0].changes[0].value.metadata.display_phone_number;
     next(); //messageType
 
   }
 }
 
 async function messageType(req, res, next) {
-
+  console.log('messageType');
   // Check out which type of message had been recieved 
   const type = req.body.entry[0].changes[0].value.messages[0].type;
 
@@ -35,7 +37,7 @@ async function messageType(req, res, next) {
 }
 
 async function databaseAdder(req, res, next) {
-
+  console.log('databaseAdder');
   const type = req.body.entry[0].changes[0].value.messages[0].type;
   var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
@@ -46,17 +48,16 @@ async function databaseAdder(req, res, next) {
   var date = new Date(messageTimestamp * 1000).toISOString();
   messageTimestamp = date;
 
-  //check out if id its in db 
+  //check out if id it is in db 
   const existance = await find(messageId);
 
   //getting rid of that 1 strange number 
-  messageFrom = messageFrom.slice(0, 2) + messageFrom.slice(3,);
+  messageFrom = messageFrom.replace(/^521/i, '52');
+  //messageFrom = messageFrom.slice(0, 2) + messageFrom.slice(3,);
 
 
   //In case DB does not have message id then send response and mask as read
   if (existance.length === 0) {
-    await webhook.read(messageId);
-    await webhook.answer(messageFrom, 'Ten un lindo día perrite'); // presenta un error el messageFrom 
     await addToDB(type,
       messageFrom,
       messageTimestamp,

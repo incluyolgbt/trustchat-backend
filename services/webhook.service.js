@@ -5,48 +5,56 @@ const token = 'Bearer '
 class Webhook {
 
   async answer(num, message) {
+    console.log('answer');
+    try {
+      await fetch('',
 
-    fetch('',
-
-      {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify({
-          "messaging_product": "whatsapp",
-          "preview_url": false,
-          "recipient_type": "individual",
-          "to": num,
-          "type": "text",
-          "text": {
-            "body": message
+        {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify({
+            "messaging_product": "whatsapp",
+            "preview_url": false,
+            "recipient_type": "individual",
+            "to": num,
+            "type": "text",
+            "text": {
+              "body": message
+            }
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
           }
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success answering'));
+        });
+    } catch (error) {
+      console.error(error);
+    }
 
   }
 
   async read(messageId) {
-    fetch('',
 
-      {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify({
-          "messaging_product": "whatsapp",
-          "status": "read",
-          "message_id": messageId
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        }
-      }).then(res => res.json())
-      .then(response => console.log('Success marking as read'))
-      .catch(error => console.error('Error:', error));
+    console.log('read');
+    
+    try {
+
+      await fetch('',
+
+        {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify({
+            "messaging_product": "whatsapp",
+            "status": "read",
+            "message_id": messageId
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 }

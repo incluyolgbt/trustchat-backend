@@ -40,12 +40,11 @@ async function addToDB(type,
           'Authorization': 'Bearer ' + supabaseKey,
           'apikey': supabaseKey
         }
-      }).then(response => console.log('Success adding to DB'))
-      .catch(error => console.error('Error:', error.message));
+      });
 
-      } catch (error) {
-    console.error(error);
-  }
+    } catch (error) {
+      console.error(error);
+    }
 
 }
 

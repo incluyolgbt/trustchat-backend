@@ -1,8 +1,5 @@
 const express = require('express');
-const WebhookService = require('./../services/webhook.service');
-
 const router = express.Router();
-const service = new WebhookService();
 
 
 router.get('/', async (req, res, next) => {
