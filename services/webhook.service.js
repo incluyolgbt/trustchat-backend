@@ -1,13 +1,13 @@
 const { find, addToDB } = require('./../services/database.service');
 
-const token = 'Bearer '
+require('dotenv').config();
 
 class Webhook {
 
   async answer(num, message) {
     //console.log('answer');
     try {
-      await fetch('',
+      await fetch(process.env.URL_WA,
 
         {
           method: 'POST', // or 'PUT'
@@ -23,7 +23,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': process.env.TOKEN_WA
           }
         });
     } catch (error) {
@@ -38,7 +38,7 @@ class Webhook {
 
     try {
 
-      await fetch('',
+      await fetch(process.env.URL_WA,
 
         {
           method: 'POST', // or 'PUT'
@@ -49,7 +49,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': process.env.TOKEN_WA
           }
         });
     } catch (error) {
