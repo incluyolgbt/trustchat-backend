@@ -15,14 +15,9 @@ DB: soMjow-honmip-despu2
   
 usar momentjs para el timestamp 
 
-let cstTime = new Date(createdAt).toLocaleString({
-    timeZone: "America/Mexico_City" });
-
 moment().format('MMMM Do YYYY, h:mm:ss a');
 
-checar la nueva arqui 
-
-Trabajar en frontend probar conexion y UI beta  
+generar el tiempo real de supabase
 
 el api arroja un 404 pero si manda datos y todo por que?
 
