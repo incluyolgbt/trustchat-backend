@@ -1,6 +1,6 @@
-const express = require('express');
-const webhook = require('./webhook.router');
-const client = require('./client.router');
+import express from 'express';
+import {webhook} from './webhook.router.js';
+import {client} from './client.router.js';
 
 
 function routerApi(app) {
@@ -10,4 +10,4 @@ function routerApi(app) {
   router.use('/client', client);
 }
 
-module.exports = routerApi;
+export {routerApi};

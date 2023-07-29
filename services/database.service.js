@@ -1,7 +1,9 @@
-const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
+import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(process.env.URL_SUPABASE, process.env.TOKEN_SUPABASE , { auth: { persistSession: false } })
+import dotenv from 'dotenv'
+dotenv.config();
+
+const supabase = createClient('', '' , { auth: { persistSession: false } })
 
 
 async function find(id) {
@@ -22,7 +24,7 @@ async function addToDB(type,
 
   try {
 
-    fetch(process.env.URL_SUPABASE + '/rest/v1/messages',
+    fetch('' + '/rest/v1/messages',
       {
         method: 'POST', // or 'PUT'
         body: JSON.stringify({
@@ -35,8 +37,8 @@ async function addToDB(type,
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + process.env.TOKEN_SUPABASE,
-          'apikey': process.env.TOKEN_SUPABASE
+          'Authorization': 'Bearer ' + '',
+          'apikey': ''
         }
       });
 
@@ -46,4 +48,4 @@ async function addToDB(type,
 
 }
 
-module.exports = { find, addToDB };
+export { find, addToDB };

@@ -28,3 +28,9 @@ como manejar los from y to's
 esto se soluciona mandando el mismo id que recibe el cliente para la peticion a la api para mostrar como leido (se muestra leido hasta que es conestado)
 
   en UI se tendra que checar como filtrar para que solo aparezca los datos correctos y no repetidos. 
+
+usar socket.io  para el frontend y backend en vez answer 
+
+checar lo de 404
+
+

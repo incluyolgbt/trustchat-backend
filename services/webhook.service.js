@@ -1,6 +1,5 @@
-const { find, addToDB } = require('./../services/database.service');
-
-require('dotenv').config();
+import dotenv from 'dotenv'
+dotenv.config();
 
 class Webhook {
 
@@ -59,4 +58,4 @@ class Webhook {
 
 }
 
-module.exports = Webhook;
+export {Webhook};

@@ -1,23 +1,23 @@
-const Webhook = require('./../services/webhook.service.js');
-const { find, addToDB } = require('./../services/database.service.js');
+import {Webhook} from './../services/webhook.service.js';
+import { find, addToDB } from './../services/database.service.js';
 
 const webhook = new Webhook();
 
 function requestType(req, res, next) { //tipo status
 
   if (req.body.entry[0].changes[0].value.statuses) {
-    //console.log('requestStatus');
+    console.log('requestStatus');
   } else {
 
     const from = req.body.entry[0].changes[0].value.metadata.display_phone_number;
-    //console.log('requestMessage');
+    console.log('requestMessage');
     next(); //messageType
 
   }
 }
 
 async function messageType(req, res, next) {
-  //console.log('messageType');
+  console.log('messageType');
   // Check out which type of message had been recieved 
   const type = req.body.entry[0].changes[0].value.messages[0].type;
 
@@ -38,7 +38,7 @@ async function messageType(req, res, next) {
 }
 
 async function databaseAdder(req, res, next) {
-  //console.log('databaseAdder');
+  console.log('databaseAdder');
   const type = req.body.entry[0].changes[0].value.messages[0].type;
   var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
@@ -68,4 +68,4 @@ async function databaseAdder(req, res, next) {
   next();
 }
 
-module.exports = { requestType, messageType, databaseAdder };
+export { requestType, messageType, databaseAdder };

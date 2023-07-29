@@ -1,17 +1,12 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
   console.log('CLIENT')
-  res.status(200);
+  res.sendStatus(200);
   try {
     console.log('mensaje del cliente web');
-    //checar tipo de req ya existe 
-    
-    //checar tipo de mensaje ya existe
-
-    //manda a base de datos ese mensaje si no existe 
 
     next();
 
@@ -22,6 +17,6 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export {router as client};
 
 

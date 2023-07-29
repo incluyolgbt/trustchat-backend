@@ -1,4 +1,4 @@
-const Webhook = require('./../services/webhook.service.js');
+import {Webhook} from './../services/webhook.service.js';
 
 async function answerMessage(req, res, next) {
 
@@ -27,5 +27,5 @@ async function answerMessage(req, res, next) {
 
 }
 
-module.exports = { answerMessage };
+export { answerMessage };
 
