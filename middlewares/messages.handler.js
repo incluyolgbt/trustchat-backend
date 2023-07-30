@@ -1,4 +1,4 @@
-import {Webhook} from './../services/webhook.service.js';
+import { Webhook } from './../services/webhook.service.js';
 import { find, addToDB } from './../services/database.service.js';
 
 const webhook = new Webhook();
@@ -6,21 +6,17 @@ const webhook = new Webhook();
 function requestType(req, res, next) { //tipo status
 
   if (req.body.entry[0].changes[0].value.statuses) {
-    console.log('requestStatus');
+
   } else {
-
-    const from = req.body.entry[0].changes[0].value.metadata.display_phone_number;
-    console.log('requestMessage');
     next(); //messageType
-
   }
 }
 
 async function messageType(req, res, next) {
-  console.log('messageType');
   // Check out which type of message had been recieved 
   const type = req.body.entry[0].changes[0].value.messages[0].type;
-
+  console.log(type)
+  console.log(req.body.entry[0].changes[0].value.messages[0])
 
   switch (type) {
     case 'text':
@@ -32,13 +28,20 @@ async function messageType(req, res, next) {
     case 'image':
       //For image type message
       break;
+    case 'audio':
+      //For image type message
+      break;
+    case 'sticker':
+      break;
+    case 'document':
+      //For image type message
+      break;
     default:
       break;
   }
 }
 
 async function databaseAdder(req, res, next) {
-  console.log('databaseAdder');
   const type = req.body.entry[0].changes[0].value.messages[0].type;
   var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;

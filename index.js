@@ -1,33 +1,37 @@
 import express from 'express';
-import cors  from 'cors';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import http from 'http';
-import {Server as SocketServer} from 'socket.io';
+import { Server as SocketServer } from 'socket.io';
 
 import { requestType, messageType, databaseAdder } from './middlewares/messages.handler.js';
-import { answerMessage } from './middlewares/answer.handler.js'
-import {routerApi} from './routes/index.js';
+import { senderClientMessage } from './middlewares/senderClientMessage.handler.js'
+import { routerApi } from './routes/index.js';
+import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
+import { answerMessageSocket } from './middleware-socket/answer.handler.js';
 
 const app = express();
 
 //socket
-const server = http.createServer(app);
+
+const appSocket = express();
+
+const server = http.createServer(appSocket);
 const io = new SocketServer(server, {
-  cors:{
+  cors: {
     origin: "http://localhost:5173"
   }
 });
 
-io.on('connection', socket => {
-  console.log('cliente connected')
+io.on("connection", (socket) => {
+ 
+});
 
-  socket.on('message', (data)=>{
-    socket.broadcast.emit('message', data); //ese data será el json
-  })
-})
+//Recibidos por el socket
+io.use(answerMessageSocket);
 
-server.listen(4000, ()=>{
-  console.log('ServerSocket on port 4000')
+server.listen(8080, () => {
+  console.log('ServerSocket on port 8080')
 });
 
 //socket
@@ -42,13 +46,16 @@ app.get('/', (req, res) => {
 
 routerApi(app);
 
+//Recibidos por el webhook
 app.use(requestType);
 app.use(messageType);
 app.use(databaseAdder);
-app.use(answerMessage);
+app.use(senderClientMessage);
 
 // middleware de error 
 
 app.listen(3000, () => {
   console.log('Server on port 3000')
 });
+
+export { io };

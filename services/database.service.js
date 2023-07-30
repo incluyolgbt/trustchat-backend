@@ -19,7 +19,8 @@ async function addToDB(type,
                         messageFrom,
                         messageTimestamp,
                         messageId,
-                        messageContent) {
+                        messageContent, 
+                        messageTo) {
   //agregar mensaje a base de datos pasar a db servicios
 
   try {
@@ -33,7 +34,7 @@ async function addToDB(type,
           "content": messageContent,
           "type": type,
           "id_from": messageFrom,
-          "id_to": 'null'
+          "id_to": messageTo
         }),
         headers: {
           'Content-Type': 'application/json',

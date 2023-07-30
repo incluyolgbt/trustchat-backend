@@ -4,9 +4,8 @@ dotenv.config();
 class Webhook {
 
   async answer(num, message) {
-    //console.log('answer');
     try {
-      await fetch(process.env.URL_WA,
+      await fetch('',
 
         {
           method: 'POST', // or 'PUT'
@@ -22,7 +21,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': process.env.TOKEN_WA
+            'Authorization': 'Bearer '
           }
         });
     } catch (error) {
@@ -33,11 +32,9 @@ class Webhook {
 
   async read(messageId) {
 
-    //console.log('read');
-
     try {
 
-      await fetch(process.env.URL_WA,
+      await fetch('',
 
         {
           method: 'POST', // or 'PUT'
@@ -48,7 +45,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': process.env.TOKEN_WA
+            'Authorization': 'Bearer '
           }
         });
     } catch (error) {

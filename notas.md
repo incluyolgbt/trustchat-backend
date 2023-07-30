@@ -17,20 +17,14 @@ usar momentjs para el timestamp
 
 moment().format('MMMM Do YYYY, h:mm:ss a');
 
-generar el tiempo real de supabase
+como manejar los from: id del usuario de la autentificación y hacia la persona que mandó el mensaje
+  checar autentificación para Ui-server (quizá usar el id del auth de supabase)
 
-el api arroja un 404 pero si manda datos y todo por que?
+guardar en DB los mensajes recibidos por socket no funciona porque solo tiene los ids del mensaje enviado por le usuarie y esos ya existen
 
-ya se hizo el post para el cliente UI 
-hay problemas con id porque no se genera hasta que llega a whats
-como manejar los from y to's
+agregar apartado de sent delivered y read y su timestamp (acceder a clave foránea de status)
 
-esto se soluciona mandando el mismo id que recibe el cliente para la peticion a la api para mostrar como leido (se muestra leido hasta que es conestado)
 
-  en UI se tendra que checar como filtrar para que solo aparezca los datos correctos y no repetidos. 
 
-usar socket.io  para el frontend y backend en vez answer 
-
-checar lo de 404
 
 
