@@ -20,9 +20,9 @@ async function addToDB(type,
                         messageTimestamp,
                         messageId,
                         messageContent, 
-                        messageTo) {
+                        messageTo,
+                        direction) {
   //agregar mensaje a base de datos pasar a db servicios
-
   try {
 
     fetch('' + '/rest/v1/messages',
@@ -33,8 +33,9 @@ async function addToDB(type,
           "timestamp": messageTimestamp,
           "content": messageContent,
           "type": type,
-          "id_from": messageFrom,
-          "id_to": messageTo
+          "user_id": (messageFrom.includes('-')? messageFrom: messageTo),
+          "contact_id": (messageFrom.includes('-')? messageTo: messageFrom),
+          "direction": direction,
         }),
         headers: {
           'Content-Type': 'application/json',

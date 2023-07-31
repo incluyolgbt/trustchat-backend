@@ -6,7 +6,7 @@ const webhook = new Webhook();
 function requestType(req, res, next) { //tipo status
 
   if (req.body.entry[0].changes[0].value.statuses) {
-
+    console.log(req.body.entry[0].changes[0].value.statuses)
   } else {
     next(); //messageType
   }
@@ -15,8 +15,6 @@ function requestType(req, res, next) { //tipo status
 async function messageType(req, res, next) {
   // Check out which type of message had been recieved 
   const type = req.body.entry[0].changes[0].value.messages[0].type;
-  console.log(type)
-  console.log(req.body.entry[0].changes[0].value.messages[0])
 
   switch (type) {
     case 'text':
@@ -47,18 +45,15 @@ async function databaseAdder(req, res, next) {
   var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
   const messageId = req.body.entry[0].changes[0].value.messages[0].id;
   const messageContent = req.body.entry[0].changes[0].value.messages[0];
-
   // Convert timestamp to date 
   var date = new Date(messageTimestamp * 1000).toISOString();
   messageTimestamp = date;
-
+  const messageTo = '19944ae8-d998-4f8d-9a40-0cc8911d544b'; // esto no es permante 
   //check out if id it is in db 
   const existance = await find(messageId);
 
   //getting rid of that 1 strange number 
   messageFrom = messageFrom.replace(/^521/i, '52');
-  //messageFrom = messageFrom.slice(0, 2) + messageFrom.slice(3,);
-
 
   //In case DB does not have message id then send response and mask as read
   if (existance.length === 0) {
@@ -66,7 +61,9 @@ async function databaseAdder(req, res, next) {
       messageFrom,
       messageTimestamp,
       messageId,
-      messageContent[type]); //conexion con base de datos para agregar
+      messageContent[type], 
+      messageTo,
+      'input'); //conexion con base de datos para agregar
   }
   next();
 }

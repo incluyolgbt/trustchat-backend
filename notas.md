@@ -17,13 +17,10 @@ usar momentjs para el timestamp
 
 moment().format('MMMM Do YYYY, h:mm:ss a');
 
-como manejar los from: id del usuario de la autentificación y hacia la persona que mandó el mensaje
-  checar autentificación para Ui-server (quizá usar el id del auth de supabase)
-
-guardar en DB los mensajes recibidos por socket no funciona porque solo tiene los ids del mensaje enviado por le usuarie y esos ya existen
-
 agregar apartado de sent delivered y read y su timestamp (acceder a clave foránea de status)
 
+para actualizar los id temporales quizá generar un sistema de colas de ambas e irlas emparejando. FIFO 
+Si hay alguna falla con la conexión el emparejamiento se detiene. 
 
 
 

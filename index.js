@@ -9,6 +9,7 @@ import { senderClientMessage } from './middlewares/senderClientMessage.handler.j
 import { routerApi } from './routes/index.js';
 import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
+import { info } from 'console';
 
 const app = express();
 
@@ -29,6 +30,8 @@ io.on("connection", (socket) => {
 
 //Recibidos por el socket
 io.use(answerMessageSocket);
+// io.use(messageTypeSocket);
+io.use(databaseAdderSocket);
 
 server.listen(8080, () => {
   console.log('ServerSocket on port 8080')
