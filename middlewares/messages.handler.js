@@ -1,12 +1,11 @@
 import { Webhook } from './../services/webhook.service.js';
-import { find, addToDB } from './../services/database.service.js';
+import { find, addToDB, findUser, addUserToDB } from './../services/database.service.js';
 
 const webhook = new Webhook();
 
 function requestType(req, res, next) { //tipo status
 
   if (req.body.entry[0].changes[0].value.statuses) {
-    console.log(req.body.entry[0].changes[0].value.statuses)
   } else {
     next(); //messageType
   }
@@ -45,15 +44,24 @@ async function databaseAdder(req, res, next) {
   var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
   const messageId = req.body.entry[0].changes[0].value.messages[0].id;
   const messageContent = req.body.entry[0].changes[0].value.messages[0];
+  const userName = req.body.entry[0].changes[0].value.contacts[0].profile.name;
+
   // Convert timestamp to date 
   var date = new Date(messageTimestamp * 1000).toISOString();
   messageTimestamp = date;
-  const messageTo = '19944ae8-d998-4f8d-9a40-0cc8911d544b'; // esto no es permante 
-  //check out if id it is in db 
-  const existance = await find(messageId);
-
+  const messageTo = ''; // esto no es permante 
+  
   //getting rid of that 1 strange number 
   messageFrom = messageFrom.replace(/^521/i, '52');
+  
+  //checking out if user is in db
+  const userExistance = await findUser(messageFrom);
+  if (userExistance.length === 0) {
+    await addUserToDB(userName, messageFrom) 
+  }
+
+  //check out if id it is in db 
+  const existance = await find(messageId);
 
   //In case DB does not have message id then send response and mask as read
   if (existance.length === 0) {
@@ -61,7 +69,7 @@ async function databaseAdder(req, res, next) {
       messageFrom,
       messageTimestamp,
       messageId,
-      messageContent[type], 
+      messageContent[type],
       messageTo,
       'input'); //conexion con base de datos para agregar
   }

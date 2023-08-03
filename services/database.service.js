@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv'
 dotenv.config();
 
-const supabase = createClient('', '' , { auth: { persistSession: false } })
+const supabase = createClient('', '', { auth: { persistSession: false } })
 
 
 async function find(id) {
@@ -15,13 +15,45 @@ async function find(id) {
   }
 }
 
+async function findUser(number) {
+  try {
+    let { data: messages, error } = await supabase.from('contacts').select('*').eq('wa_num', number);
+    return messages
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function addUserToDB(name, number) {
+  try {
+
+    fetch('' + '/rest/v1/contacts',
+      {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify({
+          "name": name,
+          "wa_num": number
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + '',
+          'apikey': ''
+        }
+      });
+
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
 async function addToDB(type,
-                        messageFrom,
-                        messageTimestamp,
-                        messageId,
-                        messageContent, 
-                        messageTo,
-                        direction) {
+  messageFrom,
+  messageTimestamp,
+  messageId,
+  messageContent,
+  messageTo,
+  direction) {
   //agregar mensaje a base de datos pasar a db servicios
   try {
 
@@ -33,8 +65,8 @@ async function addToDB(type,
           "timestamp": messageTimestamp,
           "content": messageContent,
           "type": type,
-          "user_id": (messageFrom.includes('-')? messageFrom: messageTo),
-          "contact_id": (messageFrom.includes('-')? messageTo: messageFrom),
+          "user_id": (messageFrom.includes('-') ? messageFrom : messageTo),
+          "contact_id": (messageFrom.includes('-') ? messageTo : messageFrom),
           "direction": direction,
         }),
         headers: {
@@ -44,10 +76,10 @@ async function addToDB(type,
         }
       });
 
-    } catch (error) {
-      console.error(error);
-    }
+  } catch (error) {
+    console.error(error);
+  }
 
 }
 
-export { find, addToDB };
+export { find, addToDB, findUser, addUserToDB };

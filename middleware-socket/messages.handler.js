@@ -2,7 +2,6 @@ import { find, addToDB } from './../services/database.service.js';
 import { v4 } from 'uuid';
 
 async function messageTypeSocket(socket, next) {
-  console.log('mensjae tipo socket');
   socket.on('message', (data) => {
 
     // Check out which type of message had been recieved 
@@ -27,7 +26,6 @@ async function messageTypeSocket(socket, next) {
 }
 
 async function databaseAdderSocket(socket, next) {
-  console.log('agregado a base de datos')
   socket.on('message', async(data) => {
     const type = data.type;
     var messageFrom = data.from;
@@ -35,7 +33,6 @@ async function databaseAdderSocket(socket, next) {
     const messageId = v4(); // debo generar un id random
     const messageContent = data.text;
     const messageTo = data.to;
-    console.log(type, messageFrom, messageTimestamp, messageId, messageContent, messageTo);
 
     //check out if id it is in db 
     const existance = await find(messageId);

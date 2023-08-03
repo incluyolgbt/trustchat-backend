@@ -9,12 +9,11 @@ import { senderClientMessage } from './middlewares/senderClientMessage.handler.j
 import { routerApi } from './routes/index.js';
 import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
-import { info } from 'console';
+import { dispibility } from './middlewares/disponibility.handler.js';
 
 const app = express();
 
 //socket
-
 const appSocket = express();
 
 const server = http.createServer(appSocket);
@@ -25,12 +24,13 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
- 
+  socket.on('authenticate', async(auth) =>{
+    console.log(auth); 
+  })
 });
 
 //Recibidos por el socket
 io.use(answerMessageSocket);
-// io.use(messageTypeSocket);
 io.use(databaseAdderSocket);
 
 server.listen(8080, () => {
@@ -53,7 +53,8 @@ routerApi(app);
 app.use(requestType);
 app.use(messageType);
 app.use(databaseAdder);
-app.use(senderClientMessage);
+//app.use(disponibility);
+app.use(senderClientMessage); //enviarlo a ese asesor
 
 // middleware de error 
 
