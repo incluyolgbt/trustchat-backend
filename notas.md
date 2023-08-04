@@ -29,19 +29,17 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
 
     var emparejamiento= {wa_num: user_id, ....}
 
-    se conecta un agente (user_id):
+    <!-- se conecta un agente (user_id):
     (user_id se obtiene de auth)
-    arreglo[user_id].socket_id.push(socket.id); //no porque cada vez que actualizan página cambia el id 
+    arreglo[user_id].socket_id.push(socket.id); //no porque cada vez que actualizan página cambia el id  -->
 
     llega usuarie (wa_id):
       for de arreglo
-        el agente está conectado?  (quizá solo tener a los agentes conectados)
           sí: tiene mucha carga?
             sí: siguiente user_id
             no: designar a ese user_id 
               emparejamiento[wa_id] = user_id;
               ¿cómo designar mín y máx de chats por agente?
-          no: siguiente user_id
 
 
     envío de mensajes ya designados:

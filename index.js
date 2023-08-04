@@ -9,7 +9,10 @@ import { senderClientMessage } from './middlewares/senderClientMessage.handler.j
 import { routerApi } from './routes/index.js';
 import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
-import { dispibility } from './middlewares/disponibility.handler.js';
+import { disponibility } from './middlewares/disponibility.handler.js';
+
+var users = {}; //users conectados y sus sockets id
+var pairing = {};
 
 const app = express();
 
@@ -24,8 +27,9 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on('authenticate', async(auth) =>{
-    console.log(auth); 
+  console.log(socket.id)
+  socket.on('authenticate', (auth) =>{
+    users[auth.user_id] = {socket_id: socket.id, connections: 0,}
   })
 });
 
@@ -53,7 +57,7 @@ routerApi(app);
 app.use(requestType);
 app.use(messageType);
 app.use(databaseAdder);
-//app.use(disponibility);
+app.use(disponibility);
 app.use(senderClientMessage); //enviarlo a ese asesor
 
 // middleware de error 
@@ -62,4 +66,4 @@ app.listen(3000, () => {
   console.log('Server on port 3000')
 });
 
-export { io };
+export { io, users, pairing};
