@@ -50,6 +50,8 @@ async function databaseUserAdder(req, res, next){
     await addUserToDB(userName, messageFrom) 
   }
 
+  next();
+
 }
 
 async function databaseAdder(req, res, next) {

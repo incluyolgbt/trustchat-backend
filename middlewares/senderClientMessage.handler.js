@@ -1,4 +1,4 @@
-import { users, io } from '../index.js';
+import { users, pairing, io } from '../index.js';
 
 async function senderClientMessage(req, res, next) {
 
@@ -8,7 +8,7 @@ async function senderClientMessage(req, res, next) {
   
   const user_id = pairing[messageFrom] //será igual a user (user_id) 
   
-  io.to(users[user_id].socket_id).emit('message', {
+  io.to(users[user_id]['socket_id']).emit('message', {
       text: req.body.entry[0].changes[0].value.messages[0].text.body,
       from: messageFrom,
       to: user_id,
