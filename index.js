@@ -4,15 +4,17 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
 
-import { requestType, messageType, databaseAdder } from './middlewares/messages.handler.js';
+import { requestType, messageType, databaseUserAdder, databaseAdder } from './middlewares/messages.handler.js';
 import { senderClientMessage } from './middlewares/senderClientMessage.handler.js'
 import { routerApi } from './routes/index.js';
 import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
 import { disponibility } from './middlewares/disponibility.handler.js';
 
+var setTrustChat = true; //Modo chats de confianza activar o desactivar
 var users = {}; //users conectados y sus sockets id
-var pairing = {};
+var pairing = {}; //wa_ids y los users asignados
+var maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
 
@@ -34,8 +36,8 @@ io.on("connection", (socket) => {
 });
 
 //Recibidos por el socket
-io.use(answerMessageSocket);
-io.use(databaseAdderSocket);
+io.use(answerMessageSocket); //asesor responde
+io.use(databaseAdderSocket); //guardar en base de datos mensaje 
 
 server.listen(8080, () => {
   console.log('ServerSocket on port 8080')
@@ -54,10 +56,11 @@ app.get('/', (req, res) => {
 routerApi(app);
 
 //Recibidos por el webhook
-app.use(requestType);
-app.use(messageType);
-app.use(databaseAdder);
-app.use(disponibility);
+app.use(requestType); //tipo de request
+app.use(messageType); //tipo de mensaje
+app.use(databaseUserAdder); //veo si wa_id está en base de datos o no y lo agrego
+app.use(disponibility); //veo la disponibilidad de los asesores 
+app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
 app.use(senderClientMessage); //enviarlo a ese asesor
 
 // middleware de error 
@@ -66,4 +69,4 @@ app.listen(3000, () => {
   console.log('Server on port 3000')
 });
 
-export { io, users, pairing};
+export { io, users, pairing, maxConnections};

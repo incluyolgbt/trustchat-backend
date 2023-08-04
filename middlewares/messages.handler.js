@@ -1,5 +1,6 @@
 import { Webhook } from './../services/webhook.service.js';
 import { find, addToDB, findUser, addUserToDB } from './../services/database.service.js';
+import { pairing } from '../index.js';
 
 const webhook = new Webhook();
 
@@ -38,6 +39,19 @@ async function messageType(req, res, next) {
   }
 }
 
+async function databaseUserAdder(req, res, next){
+  const userName = req.body.entry[0].changes[0].value.contacts[0].profile.name;
+  var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
+  messageFrom = messageFrom.replace(/^521/i, '52');
+
+  //checking out if user is in db
+  const userExistance = await findUser(messageFrom);
+  if (userExistance.length === 0) {
+    await addUserToDB(userName, messageFrom) 
+  }
+
+}
+
 async function databaseAdder(req, res, next) {
   const type = req.body.entry[0].changes[0].value.messages[0].type;
   var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
@@ -49,16 +63,14 @@ async function databaseAdder(req, res, next) {
   // Convert timestamp to date 
   var date = new Date(messageTimestamp * 1000).toISOString();
   messageTimestamp = date;
-  const messageTo = ''; // esto no es permante 
+ 
   
   //getting rid of that 1 strange number 
   messageFrom = messageFrom.replace(/^521/i, '52');
   
-  //checking out if user is in db
-  const userExistance = await findUser(messageFrom);
-  if (userExistance.length === 0) {
-    await addUserToDB(userName, messageFrom) 
-  }
+  const user_id = pairing[messageFrom] //será igual a user (user_id) 
+
+  const messageTo = user_id;
 
   //check out if id it is in db 
   const existance = await find(messageId);
@@ -76,4 +88,4 @@ async function databaseAdder(req, res, next) {
   next();
 }
 
-export { requestType, messageType, databaseAdder };
+export { requestType, messageType, databaseUserAdder, databaseAdder };

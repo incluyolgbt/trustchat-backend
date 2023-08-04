@@ -56,3 +56,28 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
       arreglo[user_id].socket_id = [];
       
       emparejamiento: ¿como borrar de emparejamiento?
+
+
+//como le hago para determinar el usuario con menor conexiones selection sort
+
+        manager determina el número máximo de chats per user
+        
+        //qué pasa si solo hay un user conectado?? 0 y luego 1 ... 
+        //qué pasa si tengo tres users conectados con 1, 1, 2 ...
+        //qué pasa si tengo tres users conectados con 2, 2, 1 ...
+        //si se llega al límite de wa_ids por user qué?
+
+        Manager asigna manualmente 
+
+        // me va a marcar error si un wa_id manda mensaje y no hay usuaries conectados hacer lista de espera
+        // que pasa si ese mensaje es enviado un día que no es chat de confianza 
+        Manager desactiva modo chat de confianza al finalizar 
+
+        Plataforma manager:
+        Opción de activar o desactivar modo chat de confianza 
+          desactivado se resetea el arreglo pairing 
+        ve users conectados y sus wa_ids asignados
+
+        una vez alcanzados los límites le marca en menú aparte a quién asignarle
+
+        tiene opción de chat manager que hace brodcast con todos los users 
