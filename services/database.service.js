@@ -1,9 +1,8 @@
+import "dotenv/config.js";
+
 import { createClient } from '@supabase/supabase-js';
 
-import dotenv from 'dotenv'
-dotenv.config();
-
-const supabase = createClient('', '', { auth: { persistSession: false } })
+const supabase = createClient(process.env.SUPA_URL, process.env.SUPA_TOKEN, { auth: { persistSession: false } })
 
 
 async function find(id) {
@@ -27,7 +26,7 @@ async function findUser(number) {
 async function addUserToDB(name, number) {
   try {
 
-    fetch('' + '/rest/v1/contacts',
+    fetch(process.env.SUPA_URL + '/rest/v1/contacts',
       {
         method: 'POST', // or 'PUT'
         body: JSON.stringify({
@@ -36,7 +35,7 @@ async function addUserToDB(name, number) {
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + '',
+          'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
           'apikey': ''
         }
       });
@@ -57,7 +56,7 @@ async function addToDB(type,
   //agregar mensaje a base de datos pasar a db servicios
   try {
 
-    fetch('' + '/rest/v1/messages',
+    fetch(process.env.SUPA_URL + '/rest/v1/messages',
       {
         method: 'POST', // or 'PUT'
         body: JSON.stringify({
@@ -71,7 +70,7 @@ async function addToDB(type,
         }),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + '',
+          'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
           'apikey': ''
         }
       });

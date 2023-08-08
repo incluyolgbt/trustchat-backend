@@ -1,11 +1,9 @@
-import dotenv from 'dotenv'
-dotenv.config();
-
+import "dotenv/config.js";
 class Webhook {
 
   async answer(num, message) {
     try {
-      await fetch('',
+      await fetch(process.env.FB_URL,
 
         {
           method: 'POST', // or 'PUT'
@@ -21,7 +19,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '
+            'Authorization': 'Bearer ' + process.env.FB_TOKEN
           }
         });
     } catch (error) {
@@ -34,7 +32,7 @@ class Webhook {
 
     try {
 
-      await fetch('',
+      await fetch(process.env.FB_URL,
 
         {
           method: 'POST', // or 'PUT'
@@ -45,7 +43,7 @@ class Webhook {
           }),
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '
+            'Authorization': 'Bearer ' + process.env.FB_TOKEN
           }
         });
     } catch (error) {
