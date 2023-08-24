@@ -17,7 +17,7 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
     - sistema automático: asignado y según si está conectado y disponibilidad 
     middleware antes de senderClientMessage
     
-    var arreglo = {user_id1: {
+    let arreglo = {user_id1: {
       socket_id: [socket_id1, ....]
       connected: true / false
       conversations: 0-10
@@ -27,7 +27,7 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
     .
     }
 
-    var emparejamiento= {wa_num: user_id, ....}
+    let emparejamiento= {wa_num: user_id, ....}
 
     <!-- se conecta un agente (user_id):
     (user_id se obtiene de auth)
@@ -44,7 +44,7 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
 
     envío de mensajes ya designados:
     const agent_id = emparejamiento[messageFrom]
-    var arreglo_socket_ids = arreglo[agent_id].socket_id
+    let arreglo_socket_ids = arreglo[agent_id].socket_id
 
     enviar a cada arreglo_socket_ids.
 
@@ -74,7 +74,7 @@ Generar un sistema de enrutamiento para designar usuaries a los diferentes colab
         Manager desactiva modo chat de confianza al finalizar 
 
         Plataforma manager:
-        Opción de activar o desactivar modo chat de confianza 
+        Opción de actilet o desactilet modo chat de confianza 
           desactivado se resetea el arreglo pairing 
         ve users conectados y sus wa_ids asignados
 

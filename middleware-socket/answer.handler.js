@@ -1,4 +1,5 @@
 import { Webhook } from './../services/webhook.service.js';
+import { findUserNumber } from '../services/database.service.js';
 
 async function answerMessageSocket(socket, next) {
   
@@ -8,9 +9,11 @@ async function answerMessageSocket(socket, next) {
       const to = data.to;
       const message = data.text;
       const messageId = data.messageId;
+    
+      let number = await findUserNumber(to);
 
       await webhook.read(messageId); //lo marcara como leido cuando reciba respueta del cliente 
-      await webhook.answer(to, message);
+      await webhook.answer(number, message);
     } catch (error) {
       console.error(error); //madar a agente que no se envió el mensaje 
     }

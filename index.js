@@ -11,10 +11,10 @@ import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messa
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
 import { disponibility } from './middlewares/disponibility.handler.js';
 
-var setTrustChat = true; //Modo chats de confianza activar o desactivar
-var users = {}; //users conectados y sus sockets id
-var pairing = {}; //wa_ids y los users asignados
-var maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
+let setTrustChat = true; //Modo chats de confianza actilet o desactivar
+let users = {}; //users conectados y sus sockets id
+let pairing = {}; //wa_ids y los users asignados
+let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
 
@@ -29,7 +29,6 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(socket.id)
   socket.on('authenticate', (auth) =>{
     users[auth.user_id] = {socket_id: socket.id, connections: 0,}
   })

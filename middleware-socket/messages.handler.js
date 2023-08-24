@@ -28,8 +28,8 @@ async function messageTypeSocket(socket, next) {
 async function databaseAdderSocket(socket, next) {
   socket.on('message', async(data) => {
     const type = data.type;
-    var messageFrom = data.from;
-    var messageTimestamp = new Date();
+    let messageFrom = data.from;
+    let messageTimestamp = new Date();
     const messageId = v4(); // debo generar un id random
     const messageContent = data.text;
     const messageTo = data.to;
@@ -40,11 +40,11 @@ async function databaseAdderSocket(socket, next) {
     //In case DB does not have message id then send response and mask as read
     if (existance.length === 0) {
       await addToDB(type,
-        messageFrom,
+        messageTo,
         messageTimestamp,
         messageId,
         messageContent, 
-        messageTo,
+        messageFrom,
         'output'
       ); //conexion con base de datos para agregar
     }

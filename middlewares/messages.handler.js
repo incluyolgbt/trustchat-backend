@@ -41,12 +41,13 @@ async function messageType(req, res, next) {
 
 async function databaseUserAdder(req, res, next){
   const userName = req.body.entry[0].changes[0].value.contacts[0].profile.name;
-  var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
+  let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   messageFrom = messageFrom.replace(/^521/i, '52');
 
   //checking out if user is in db
   const userExistance = await findUser(messageFrom);
-  if (userExistance.length === 0) {
+
+  if (!userExistance.length) {
     await addUserToDB(userName, messageFrom) 
   }
 
@@ -56,14 +57,14 @@ async function databaseUserAdder(req, res, next){
 
 async function databaseAdder(req, res, next) {
   const type = req.body.entry[0].changes[0].value.messages[0].type;
-  var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
-  var messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
+  let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
+  let messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
   const messageId = req.body.entry[0].changes[0].value.messages[0].id;
   const messageContent = req.body.entry[0].changes[0].value.messages[0];
   const userName = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
   // Convert timestamp to date 
-  var date = new Date(messageTimestamp * 1000).toISOString();
+  let date = new Date(messageTimestamp * 1000).toISOString();
   messageTimestamp = date;
  
   
@@ -72,15 +73,18 @@ async function databaseAdder(req, res, next) {
   
   const user_id = pairing[messageFrom] //será igual a user (user_id) 
 
+  const userExistance = await findUser(messageFrom);
+  let clientId = userExistance[0]?.id;
+
   const messageTo = user_id;
 
   //check out if id it is in db 
   const existance = await find(messageId);
 
   //In case DB does not have message id then send response and mask as read
-  if (existance.length === 0) {
+  if (!existance.length) {
     await addToDB(type,
-      messageFrom,
+      clientId,
       messageTimestamp,
       messageId,
       messageContent[type],

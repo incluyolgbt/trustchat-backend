@@ -1,14 +1,14 @@
 import { users, pairing, maxConnections } from "../index.js"
 
 function disponibility(req, res, next) {
-    var messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
+    let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
     messageFrom = messageFrom.replace(/^521/i, '52');
 
-    console.log(pairing)
+    console.log('pairing: ', pairing)
     if (pairing[messageFrom] !== undefined) return next(); //una vez emparejado omitir ese usuario 
 
-    var tempConnections = maxConnections;
-    var tempUser = '';
+    let tempConnections = maxConnections;
+    let tempUser = '';
     let shouldSkip = false;
     Object.keys(users).forEach((user) => {
 
