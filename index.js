@@ -32,6 +32,10 @@ io.on("connection", (socket) => {
   socket.on('authenticate', (auth) =>{
     users[auth.user_id] = {socket_id: socket.id, connections: 0,}
   })
+
+  socket.on('general', (msg) =>{
+    socket.broadcast.emit('general', msg)
+  })
 });
 
 //Recibidos por el socket
