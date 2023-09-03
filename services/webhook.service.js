@@ -3,7 +3,7 @@ class Webhook {
 
   async answer(num, message) {
     try {
-      await fetch(process.env.FB_URL,
+      return await fetch(process.env.FB_URL,
 
         {
           method: 'POST', // or 'PUT'
@@ -32,7 +32,7 @@ class Webhook {
 
     try {
 
-      await fetch(process.env.FB_URL,
+      const data = await fetch(process.env.FB_URL,
 
         {
           method: 'POST', // or 'PUT'
@@ -46,6 +46,8 @@ class Webhook {
             'Authorization': 'Bearer ' + process.env.FB_TOKEN
           }
         });
+
+      return data;
     } catch (error) {
       console.error(error);
     }
@@ -53,4 +55,4 @@ class Webhook {
 
 }
 
-export {Webhook};
+export { Webhook };
