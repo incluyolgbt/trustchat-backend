@@ -23,6 +23,15 @@ async function findUser(number) {
   }
 }
 
+async function findUserNumber(id) {
+  try {
+    let { data: number, error } = await supabase.from('contacts').select('wa_num').eq('id', id);
+    return number[0]['wa_num']
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 async function addUserToDB(name, number) {
   try {
 
@@ -36,7 +45,7 @@ async function addUserToDB(name, number) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
-          'apikey': ''
+          'apikey': process.env.SUPA_TOKEN
         }
       });
 
@@ -55,7 +64,6 @@ async function addToDB(type,
   direction) {
   //agregar mensaje a base de datos pasar a db servicios
   try {
-
     fetch(process.env.SUPA_URL + '/rest/v1/messages',
       {
         method: 'POST', // or 'PUT'
@@ -64,14 +72,14 @@ async function addToDB(type,
           "timestamp": messageTimestamp,
           "content": messageContent,
           "type": type,
-          "user_id": (messageFrom.includes('-') ? messageFrom : messageTo),
-          "contact_id": (messageFrom.includes('-') ? messageTo : messageFrom),
+          "user_id": messageTo,//(messageFrom.includes('-') ? messageFrom : messageTo),
+          "contact_id": messageFrom,//(messageFrom.includes('-') ? messageTo : messageFrom),
           "direction": direction,
         }),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
-          'apikey': ''
+          'apikey': process.env.SUPA_TOKEN
         }
       });
 
@@ -81,4 +89,4 @@ async function addToDB(type,
 
 }
 
-export { find, addToDB, findUser, addUserToDB };
+export { find, addToDB, findUser, addUserToDB, findUserNumber };
