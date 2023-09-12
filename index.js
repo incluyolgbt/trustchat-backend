@@ -17,6 +17,7 @@ let pairing = {}; //wa_ids y los users asignados
 let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
+app.use(cors());
 
 //socket
 const appSocket = express();
@@ -29,8 +30,8 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on('authenticate', (auth) =>{
-    users[auth.user_id] = {socket_id: socket.id, connections: 0,}
+  socket.on('authenticate', (auth) => {
+    users[auth.user_id] = {socket_id: socket.id, connections: 0}
   })
 
   socket.on('general', (msg) =>{
@@ -53,6 +54,11 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('hello');
+});
+
+app.get('/activeUsers', (req, res) => {
+  res.status(200).send({ ...users });
+  return false;
 });
 
 

@@ -1,6 +1,7 @@
+import { threadId } from 'worker_threads';
 import { users, pairing, maxConnections } from "../index.js"
 
-function disponibility(req, res, next) {
+function disponibility(req, res, next) { 
     let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
     messageFrom = messageFrom.replace(/^521/i, '52');
 
@@ -10,7 +11,18 @@ function disponibility(req, res, next) {
     let tempConnections = maxConnections;
     let tempUser = '';
     let shouldSkip = false;
-    Object.keys(users).forEach((user) => {
+
+    const activeUsers = Object.keys(users).filter((user) => {
+        if (user !== process.env.ADMIN_UUID) {
+            return user;
+        }
+    });
+    
+    if(!activeUsers.length) {
+        throw new Error('no active users')
+    }
+
+    activeUsers.forEach((user) => {
 
         console.log('connections: ', users[user].connections);
 
@@ -32,4 +44,5 @@ function disponibility(req, res, next) {
     console.log(pairing, users[tempUser]['connections'])
     next();
 }
+
 export { disponibility }
