@@ -17,6 +17,7 @@ let pairing = {}; //wa_ids y los users asignados
 let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
+app.use(cors());
 
 //socket
 const appSocket = express();
@@ -29,12 +30,21 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on('authenticate', (auth) =>{
-    users[auth.user_id] = {socket_id: socket.id, connections: 0,}
+  socket.on('authenticate', (auth) => {
+    users[auth.user_id] = {socket_id: socket.id, connections: 0}
   })
 
-  socket.on('general', (msg) =>{
+  socket.on('general', (msg) => {
     socket.broadcast.emit('general', msg)
+  })
+
+  socket.on("disconnect", () => {
+    const disconnectedUserId = Object.keys(users).find(
+      userId => users[userId].socket_id === socket.id
+    );
+    if (disconnectedUserId) {
+      delete users[disconnectedUserId];
+    }
   })
 });
 
@@ -53,6 +63,22 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('hello');
+});
+
+app.get('/activeUsers', (req, res) => {
+  res.status(200).send({ ...users });
+  return false;
+});
+
+app.post('/assignUser', (req, res) => {
+  const { contact, user_id } = req.body;
+  if (pairing[contact]) {
+    pairing[contact] = user_id;
+    res.status(200).send({});
+  } else {
+    res.status(400);
+  }
+  return false;
 });
 
 
