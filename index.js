@@ -47,8 +47,8 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (socket) => {
-    if (auth) {
-      console.log('User auth:', auth?.user_id);
+    if (socket) {
+      console.log('User auth:', socket.id);
       const disconnectedUserId = Object.keys(users).find(
         userId => users[userId].socket_id === socket.id
       );
