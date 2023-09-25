@@ -20,7 +20,7 @@ let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: "*"
 }));
 
 const server = http.createServer(app);
@@ -34,8 +34,10 @@ io.on("connection", (socket) => {
   console.log('User connected:', socket?.id);
 
   socket.on('authenticate', (auth) => {
-    console.log('User auth:', auth?.user_id);
-    users[auth.user_id] = {socket_id: socket.id, connections: 0}
+    if(auth) {
+      console.log('User auth:', auth?.user_id);
+      users[auth.user_id] = {socket_id: socket.id, connections: 0}
+    }
   })
 
   socket.on('general', (msg) => {
