@@ -45,12 +45,14 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (socket) => {
-    console.log('User auth:', auth?.user_id);
-    const disconnectedUserId = Object.keys(users).find(
-      userId => users[userId].socket_id === socket.id
-    );
-    if (disconnectedUserId) {
-      delete users[disconnectedUserId];
+    if(auth) {
+      console.log('User auth:', auth?.user_id);
+      const disconnectedUserId = Object.keys(users).find(
+        userId => users[userId].socket_id === socket.id
+      );
+      if (disconnectedUserId) {
+        delete users[disconnectedUserId];
+      }
     }
   })
 });
