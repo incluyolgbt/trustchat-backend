@@ -84,7 +84,7 @@ app.post('/assignUser', (req, res) => {
   } else {
     res.status(400);
   }
-  return false;
+  next();
 });
 
 
