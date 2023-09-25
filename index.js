@@ -76,7 +76,7 @@ app.get('/activeUsers', (req, res) => {
   return false;
 });
 
-app.post('/assignUser', (req, res) => {
+app.post('/assignUser', (req, res, next) => {
   const { contact, user_id } = req.body;
   if (pairing[contact]) {
     pairing[contact] = user_id;
