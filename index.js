@@ -82,6 +82,7 @@ app.post('/assignUser', (req, res) => {
 routerApi(app);
 
 app.use((req, res, next) => {
+  console.log('>>> Incoming request')
   if (req.body.entry) {
     //Recibidos por el webhook
     app.use(requestType); //tipo de request
