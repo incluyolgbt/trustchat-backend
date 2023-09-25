@@ -71,8 +71,8 @@ app.use(senderClientMessage); //enviarlo a ese asesor
 
 // middleware de error 
 
-app.listen(8080, () => {
-  console.log('Server on port 8080')
+app.listen(3000, () => {
+  console.log('Server on port 3000')
 });
 
 export { io, users, pairing, maxConnections};
