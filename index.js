@@ -28,10 +28,10 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('User connected:', socket?.id);
 
   socket.on('authenticate', (auth) => {
-    console.log('User auth:', auth.user_id);
+    console.log('User auth:', auth?.user_id);
     users[auth.user_id] = {socket_id: socket.id, connections: 0}
   })
 
@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (socket) => {
-    console.log('User auth:', auth.user_id);
+    console.log('User auth:', auth?.user_id);
     const disconnectedUserId = Object.keys(users).find(
       userId => users[userId].socket_id === socket.id
     );
