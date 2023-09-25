@@ -18,7 +18,10 @@ let pairing = {}; //wa_ids y los users asignados
 let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 const server = http.createServer(app);
 const io = new SocketServer(server, {
