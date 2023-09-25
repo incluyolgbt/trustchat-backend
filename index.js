@@ -30,6 +30,7 @@ const io = new SocketServer(server, {
 
 io.on("connection", (socket) => {
   socket.on('authenticate', (auth) =>{
+    console.log('User connected:', auth.user_id);
     users[auth.user_id] = {socket_id: socket.id, connections: 0,}
   })
 
