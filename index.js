@@ -11,6 +11,7 @@ import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messa
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
 import { disponibility } from './middlewares/disponibility.handler.js';
 
+const PORT = 8080;
 let setTrustChat = true; //Modo chats de confianza actilet o desactivar
 let users = {}; //users conectados y sus sockets id
 let pairing = {}; //wa_ids y los users asignados
@@ -18,10 +19,7 @@ let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
 
-//socket
-const appSocket = express();
-
-const server = http.createServer(appSocket);
+const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
     origin: "http://localhost:5173"
@@ -29,7 +27,7 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log('User connected:', socket);
+  console.log('User connected:', socket.id);
 
   socket.on('authenticate', (auth) =>{
     console.log('User auth:', auth.user_id);
@@ -45,12 +43,7 @@ io.on("connection", (socket) => {
 io.use(answerMessageSocket); //asesor responde
 io.use(databaseAdderSocket); //guardar en base de datos mensaje 
 
-server.listen(8080, () => {
-  console.log('ServerSocket on port 8080')
-});
-
 //socket
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -69,10 +62,8 @@ app.use(disponibility); //veo la disponibilidad de los asesores
 app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
 app.use(senderClientMessage); //enviarlo a ese asesor
 
-// middleware de error 
-
-app.listen(3000, () => {
-  console.log('Server on port 3000')
+server.listen(PORT, () => {
+  console.log(`✨ Server is up and running on port ${PORT}`)
 });
 
 export { io, users, pairing, maxConnections};
