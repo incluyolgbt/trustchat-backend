@@ -29,8 +29,10 @@ const io = new SocketServer(server, {
 });
 
 io.on("connection", (socket) => {
+  console.log('User connected:', socket);
+
   socket.on('authenticate', (auth) =>{
-    console.log('User connected:', auth.user_id);
+    console.log('User auth:', auth.user_id);
     users[auth.user_id] = {socket_id: socket.id, connections: 0,}
   })
 
@@ -69,8 +71,8 @@ app.use(senderClientMessage); //enviarlo a ese asesor
 
 // middleware de error 
 
-app.listen(3000, () => {
-  console.log('Server on port 3000')
+app.listen(8080, () => {
+  console.log('Server on port 8080')
 });
 
 export { io, users, pairing, maxConnections};
