@@ -63,7 +63,7 @@ app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
 app.use(senderClientMessage); //enviarlo a ese asesor
 
 server.listen(PORT, () => {
-  console.log(`✨ Server is up and running on port ${PORT}`)
+  console.log(`>>> Server is up and running on port ${PORT}`)
 });
 
 export { io, users, pairing, maxConnections};
