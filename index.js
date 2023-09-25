@@ -19,9 +19,11 @@ let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173"
+  })
+);
 
 const server = http.createServer(app);
 const io = new SocketServer(server, {
@@ -45,7 +47,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (socket) => {
-    if(auth) {
+    if (auth) {
       console.log('User auth:', auth?.user_id);
       const disconnectedUserId = Object.keys(users).find(
         userId => users[userId].socket_id === socket.id
@@ -64,8 +66,6 @@ io.use(databaseAdderSocket); //guardar en base de datos mensaje
 //socket
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(function (req, res, next) {
 
 app.get('/', (req, res) => {
   res.send('hello');
