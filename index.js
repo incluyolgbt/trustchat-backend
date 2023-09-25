@@ -18,6 +18,7 @@ let pairing = {}; //wa_ids y los users asignados
 let maxConnections = 1; // Número de chats permitidos menos 1 (en este caso 2)
 
 const app = express();
+app.use(cors());
 
 const server = http.createServer(app);
 const io = new SocketServer(server, {
@@ -29,13 +30,23 @@ const io = new SocketServer(server, {
 io.on("connection", (socket) => {
   console.log('User connected:', socket.id);
 
-  socket.on('authenticate', (auth) =>{
+  socket.on('authenticate', (auth) => {
     console.log('User auth:', auth.user_id);
-    users[auth.user_id] = {socket_id: socket.id, connections: 0,}
+    users[auth.user_id] = {socket_id: socket.id, connections: 0}
   })
 
-  socket.on('general', (msg) =>{
+  socket.on('general', (msg) => {
     socket.broadcast.emit('general', msg)
+  })
+
+  socket.on("disconnect", (socket) => {
+    console.log('User auth:', auth.user_id);
+    const disconnectedUserId = Object.keys(users).find(
+      userId => users[userId].socket_id === socket.id
+    );
+    if (disconnectedUserId) {
+      delete users[disconnectedUserId];
+    }
   })
 });
 
@@ -51,16 +62,36 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
+app.get('/activeUsers', (req, res) => {
+  res.status(200).send({ ...users });
+  return false;
+});
+
+app.post('/assignUser', (req, res) => {
+  const { contact, user_id } = req.body;
+  if (pairing[contact]) {
+    pairing[contact] = user_id;
+    res.status(200).send({});
+  } else {
+    res.status(400);
+  }
+  return false;
+});
+
 
 routerApi(app);
 
-//Recibidos por el webhook
-app.use(requestType); //tipo de request
-app.use(messageType); //tipo de mensaje
-app.use(databaseUserAdder); //veo si wa_id está en base de datos o no y lo agrego
-app.use(disponibility); //veo la disponibilidad de los asesores 
-app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
-app.use(senderClientMessage); //enviarlo a ese asesor
+app.use((req, res, next) => {
+  if (req.body.entry) {
+    //Recibidos por el webhook
+    app.use(requestType); //tipo de request
+    app.use(messageType); //tipo de mensaje
+    app.use(databaseUserAdder); //veo si wa_id está en base de datos o no y lo agrego
+    app.use(disponibility); //veo la disponibilidad de los asesores 
+    app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
+    app.use(senderClientMessage); //enviarlo a ese asesor
+  }
+});
 
 server.listen(PORT, () => {
   console.log(`>>> Server is up and running on port ${PORT}`)
