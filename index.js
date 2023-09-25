@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   console.log('User connected:', socket?.id);
 
   socket.on('authenticate', (auth) => {
-    if(auth) {
+    if (auth) {
       console.log('User auth:', auth?.user_id);
       users[auth.user_id] = {socket_id: socket.id, connections: 0}
     }
@@ -93,6 +93,7 @@ routerApi(app);
 app.use((req, res, next) => {
   console.log('>>> Incoming request')
   if (req.body.entry) {
+    console.log('>>> Request is a message')
     //Recibidos por el webhook
     app.use(requestType); //tipo de request
     app.use(messageType); //tipo de mensaje
