@@ -59,6 +59,10 @@ io.on("connection", (socket) => {
   })
 });
 
+io.on('message', async (data, callback) => {
+  console.log('Response detected', data);
+})
+
 //Recibidos por el socket
 io.use(answerMessageSocket); //asesor responde
 io.use(databaseAdderSocket); //guardar en base de datos mensaje 

@@ -23,33 +23,25 @@ class Webhook {
           'Authorization': 'Bearer ' + process.env.FB_TOKEN
         }
     })
-    .catch((e) => { console.log(e) });;
+    .catch((e) => { console.log(e) });
 
   }
 
   async read(messageId) {
+    return await fetch(process.env.FB_URL,
 
-    try {
-
-      const data = await fetch(process.env.FB_URL,
-
-        {
-          method: 'POST', // or 'PUT'
-          body: JSON.stringify({
-            "messaging_product": "whatsapp",
-            "status": "read",
-            "message_id": messageId
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + process.env.FB_TOKEN
-          }
-        });
-
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+      {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify({
+          "messaging_product": "whatsapp",
+          "status": "read",
+          "message_id": messageId
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + process.env.FB_TOKEN
+        }
+      }).catch((e) => { console.log(e) });;
   }
 
 }
