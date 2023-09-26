@@ -1,5 +1,5 @@
 import "dotenv/config.js";
-
+import fetch from "node-fetch";
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(process.env.SUPA_URL, process.env.SUPA_TOKEN, { auth: { persistSession: false } })

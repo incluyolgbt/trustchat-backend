@@ -1,4 +1,6 @@
 import "dotenv/config.js";
+import fetch from "node-fetch";
+
 class Webhook {
 
   async answer(num, message) {
