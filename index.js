@@ -95,12 +95,18 @@ app.use((req, res, next) => {
     console.log('>>> Request is a message')
     //Recibidos por el webhook
     try {
-      app.use(requestType); //tipo de request
-      app.use(messageType); //tipo de mensaje
-      app.use(databaseUserAdder); //veo si wa_id está en base de datos o no y lo agrego
-      app.use(disponibility); //veo la disponibilidad de los asesores 
-      app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
-      app.use(senderClientMessage); //enviarlo a ese asesor
+      requestType(req, res, next);
+      messageType(req, res, next);
+      databaseUserAdder(req, res, next);
+      disponibility(req, res, next);
+      databaseAdder(req, res, next);
+      senderClientMessage(req, res, next);
+      // app.use(requestType); //tipo de request
+      // app.use(messageType); //tipo de mensaje
+      // app.use(databaseUserAdder); //veo si wa_id está en base de datos o no y lo agrego
+      // app.use(disponibility); //veo la disponibilidad de los asesores 
+      // app.use(databaseAdder); //agrego a base de datos mensaje con asesor y wa_id
+      // app.use(senderClientMessage); //enviarlo a ese asesor
     } catch (e) {
       console.log(e);
     }
