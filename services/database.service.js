@@ -62,32 +62,28 @@ async function addToDB(type,
   messageTo,
   direction) {
   //agregar mensaje a base de datos pasar a db servicios
-  try {
-    fetch(process.env.SUPA_URL + '/rest/v1/messages',
-      {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify({
-          "id": messageId,
-          "timestamp": messageTimestamp,
-          "content": messageContent,
-          "type": type,
-          "user_id": messageTo,//(messageFrom.includes('-') ? messageFrom : messageTo),
-          "contact_id": messageFrom,//(messageFrom.includes('-') ? messageTo : messageFrom),
-          "direction": direction,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
-          'apikey': process.env.SUPA_TOKEN
-        }
-      })
-      .then((resp) => { return resp.json() })
-      .then((data) => { console.log('>>>', data) })
-      .catch((e) => { console.log(e) });
+  fetch(process.env.SUPA_URL + '/rest/v1/messages',
+    {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify({
+        "id": messageId,
+        "timestamp": messageTimestamp,
+        "content": messageContent,
+        "type": type,
+        "user_id": messageTo,//(messageFrom.includes('-') ? messageFrom : messageTo),
+        "contact_id": messageFrom,//(messageFrom.includes('-') ? messageTo : messageFrom),
+        "direction": direction,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
+        'apikey': process.env.SUPA_TOKEN
+      }
+    })
+    .then((resp) => { return resp.json() })
+    .then((data) => { console.log('>>>', data) })
+    .catch((e) => { console.log(e) });
 
-  } catch (error) {
-    console.error(error);
-  }
 
 }
 
