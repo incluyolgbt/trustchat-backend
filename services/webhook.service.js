@@ -1,11 +1,12 @@
 import "dotenv/config.js";
+import { response } from 'express';
 import fetch from "node-fetch";
 
 class Webhook {
 
   async answer(num, message) {
 
-    return await fetch(process.env.FB_URL,
+    const resp = await fetch(process.env.FB_URL,
       {
         method: 'POST', // or 'PUT'
         body: JSON.stringify({
@@ -25,11 +26,16 @@ class Webhook {
     })
     .catch((e) => { console.log(e) });
 
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      console.log('Error:', response)
+    }
+
   }
 
   async read(messageId) {
-    return await fetch(process.env.FB_URL,
-
+    const resp = await fetch(process.env.FB_URL,
       {
         method: 'POST', // or 'PUT'
         body: JSON.stringify({
@@ -41,7 +47,13 @@ class Webhook {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + process.env.FB_TOKEN
         }
-      }).catch((e) => { console.log(e) });;
+      }).catch((e) => { console.log(e) });
+
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      console.log('Error:', response)
+    }
   }
 
 }
