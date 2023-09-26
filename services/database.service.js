@@ -4,7 +4,6 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(process.env.SUPA_URL, process.env.SUPA_TOKEN, { auth: { persistSession: false } })
 
-
 async function find(id) {
   try {
     let { data: messages, error } = await supabase.from('messages').select('*').eq('id', id);
@@ -81,7 +80,10 @@ async function addToDB(type,
           'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
           'apikey': process.env.SUPA_TOKEN
         }
-      });
+      })
+      .then(resp => resp.json())
+      .then(data => console.log('>>>', data))
+      .catch(e => console.log(e));
 
   } catch (error) {
     console.error(error);
