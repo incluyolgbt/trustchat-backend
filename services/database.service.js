@@ -32,7 +32,6 @@ async function findUserNumber(id) {
 }
 
 async function addUserToDB(name, number) {
-  try {
 
     fetch(process.env.SUPA_URL + '/rest/v1/contacts',
       {
@@ -46,11 +45,8 @@ async function addUserToDB(name, number) {
           'Authorization': 'Bearer ' + process.env.SUPA_TOKEN,
           'apikey': process.env.SUPA_TOKEN
         }
-      });
-
-  } catch (error) {
-    console.error(error);
-  }
+      })
+      .catch((e) => { console.log(e) });
 
 }
 
@@ -80,8 +76,6 @@ async function addToDB(type,
         'apikey': process.env.SUPA_TOKEN
       }
     })
-    .then((resp) => { return resp.json() })
-    .then((data) => { console.log('>>>', data) })
     .catch((e) => { console.log(e) });
 
 

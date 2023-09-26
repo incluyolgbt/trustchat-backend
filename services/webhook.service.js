@@ -4,29 +4,26 @@ import fetch from "node-fetch";
 class Webhook {
 
   async answer(num, message) {
-    try {
-      return await fetch(process.env.FB_URL,
 
-        {
-          method: 'POST', // or 'PUT'
-          body: JSON.stringify({
-            "messaging_product": "whatsapp",
-            "preview_url": false,
-            "recipient_type": "individual",
-            "to": num,
-            "type": "text",
-            "text": {
-              "body": message
-            }
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + process.env.FB_TOKEN
+    return await fetch(process.env.FB_URL,
+      {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify({
+          "messaging_product": "whatsapp",
+          "preview_url": false,
+          "recipient_type": "individual",
+          "to": num,
+          "type": "text",
+          "text": {
+            "body": message
           }
-        });
-    } catch (error) {
-      console.error(error);
-    }
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + process.env.FB_TOKEN
+        }
+    })
+    .catch((e) => { console.log(e) });;
 
   }
 
