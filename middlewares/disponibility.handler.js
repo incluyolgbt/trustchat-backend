@@ -1,6 +1,9 @@
 import { users, pairing, maxConnections } from "../index.js"
 
 function disponibility(req, res, next) {
+
+    console.log('[DEBUG] Disponibility');
+
     let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
     messageFrom = messageFrom.replace(/^521/i, '52');
 
@@ -9,7 +12,7 @@ function disponibility(req, res, next) {
 
     let tempConnections = maxConnections;
     let tempUser = '';
-    let shouldSkip = false;
+
     Object.keys(users).forEach((user) => {
 
         console.log('connections: ', users[user].connections);
@@ -17,7 +20,6 @@ function disponibility(req, res, next) {
         if (users[user].connections === 0) {
             //ese user tiene 0 connections hay que asignarlo
             tempUser = user;
-            shouldSkip = true;
             return; // ya no necesito continuar el bucle 
         } else if (users[user].connections <= tempConnections) {
             tempConnections = users[user].connections; // ese usuario tiene el mismo o menos connections que el anterior 

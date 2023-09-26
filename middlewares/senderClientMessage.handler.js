@@ -3,6 +3,8 @@ import { findUser } from '../services/database.service.js';
 
 async function senderClientMessage(req, res, next) {
 
+  console.log('[DEBUG] Sender client message');
+
   let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   messageFrom = messageFrom.replace(/^521/i, '52');
 

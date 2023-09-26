@@ -6,6 +6,8 @@ const webhook = new Webhook();
 
 function requestType(req, res, next) { //tipo status
 
+  console.log('[DEBUG] Request Type');
+
   if (req.body.entry[0].changes[0].value.statuses) {
   } else {
     next(); //messageType
@@ -13,6 +15,9 @@ function requestType(req, res, next) { //tipo status
 }
 
 async function messageType(req, res, next) {
+
+  console.log('[DEBUG] Message Type');
+
   // Check out which type of message had been recieved 
   const type = req.body.entry[0].changes[0].value.messages[0].type;
 
@@ -40,6 +45,9 @@ async function messageType(req, res, next) {
 }
 
 async function databaseUserAdder(req, res, next){
+
+  console.log('[DEBUG] Database user adder');
+
   const userName = req.body.entry[0].changes[0].value.contacts[0].profile.name;
   let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   messageFrom = messageFrom.replace(/^521/i, '52');
@@ -56,6 +64,9 @@ async function databaseUserAdder(req, res, next){
 }
 
 async function databaseAdder(req, res, next) {
+
+  console.log('[DEBUG] Databse Adder');
+
   const type = req.body.entry[0].changes[0].value.messages[0].type;
   let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
   let messageTimestamp = req.body.entry[0].changes[0].value.messages[0].timestamp;
