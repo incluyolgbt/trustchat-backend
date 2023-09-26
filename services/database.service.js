@@ -81,9 +81,9 @@ async function addToDB(type,
           'apikey': process.env.SUPA_TOKEN
         }
       })
-      .then(resp => resp.json())
-      .then(data => console.log('>>>', data))
-      .catch(e => console.log(e));
+      .then((resp) => { return resp.json() })
+      .then((data) => { console.log('>>>', data) })
+      .catch((e) => { console.log(e) });
 
   } catch (error) {
     console.error(error);
