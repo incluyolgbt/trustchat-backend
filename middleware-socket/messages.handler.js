@@ -4,6 +4,8 @@ import { v4 } from 'uuid';
 async function messageTypeSocket(socket, next) {
   socket.on('message', (data) => {
 
+    console.log('[DEBUG] messageTypeSocket');
+
     // Check out which type of message had been recieved 
     const type = data.type;
 
@@ -27,6 +29,9 @@ async function messageTypeSocket(socket, next) {
 
 async function databaseAdderSocket(socket, next) {
   socket.on('message', async(data) => {
+
+    console.log('[DEBUG] databaseAdderSocket');
+
     const type = data.type;
     let messageFrom = data.from;
     let messageTimestamp = new Date();

@@ -5,6 +5,9 @@ async function answerMessageSocket(socket, next) {
 
   const webhook = new Webhook();
   socket.on('message', async (data, callback) => {
+
+    console.log('[DEBUG] answerMessageSocket');
+
     try {
       const to = data.to;
       const message = data.text;
