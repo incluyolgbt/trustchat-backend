@@ -21,14 +21,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173"
+    origin: ["http://localhost:5173", "https://chdc.onrender.com"]
   })
 );
 
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
-    origin: "http://localhost:5173"
+    origin: ["http://localhost:5173", "https://chdc.onrender.com"]
   }
 });
 
