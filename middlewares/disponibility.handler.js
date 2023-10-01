@@ -7,8 +7,12 @@ function disponibility(req, res, next) {
     let messageFrom = req.body.entry[0].changes[0].value.messages[0].from;
     messageFrom = messageFrom.replace(/^521/i, '52');
 
-    console.log('pairing: ', pairing)
+    console.log('pairing: ', pairing);
+
+    //aquí está el pedo
     if (pairing[messageFrom] !== undefined) return next(); //una vez emparejado omitir ese usuario 
+
+    console.log('después de probar si se emparejó o no');
 
     let tempConnections = maxConnections;
     let tempUser = '';
