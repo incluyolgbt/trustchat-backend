@@ -9,7 +9,7 @@ function disponibility(req, res, next) {
 
     console.log('pairing: ', pairing);
 
-    //aquí está el pedo
+    //aquí está el pedo volver undefined cuando se desconecte alquien 
     if (pairing[messageFrom] !== undefined) return next(); //una vez emparejado omitir ese usuario 
 
     console.log('después de probar si se emparejó o no');

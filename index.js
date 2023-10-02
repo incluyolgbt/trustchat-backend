@@ -7,7 +7,7 @@ import { Server as SocketServer } from 'socket.io';
 import { requestType, messageType, databaseUserAdder, databaseAdder } from './middlewares/messages.handler.js';
 import { senderClientMessage } from './middlewares/senderClientMessage.handler.js'
 import { routerApi } from './routes/index.js';
-import { databaseAdderSocket, messageTypeSocket} from './middleware-socket/messages.handler.js';
+import { databaseAdderSocket, messageTypeSocket } from './middleware-socket/messages.handler.js';
 import { answerMessageSocket } from './middleware-socket/answer.handler.js';
 import { disponibility } from './middlewares/disponibility.handler.js';
 
@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
   socket.on('authenticate', (auth) => {
     if (auth) {
       console.log('User auth:', auth?.user_id);
-      users[auth.user_id] = {socket_id: socket.id, connections: 0}
+      users[auth.user_id] = { socket_id: socket.id, connections: 0 }
     }
   })
 
@@ -46,14 +46,15 @@ io.on("connection", (socket) => {
     socket.broadcast.emit('general', msg)
   })
 
-  socket.on("disconnect", (socket) => {
+  socket.on("disconnect", () => {
+    console.log('Socket al desconectarse: ', socket.id)
     if (socket) {
       console.log('User disconnected:', socket.id);
       const disconnectedUserId = Object.keys(users).find(
         userId => users[userId].socket_id === socket.id
       );
       if (disconnectedUserId) {
-        delete users[disconnectedUserId];
+        delete users[disconnectedUserId]; //aquí necesito ponerlo como undefined
       }
     }
   })
@@ -115,4 +116,4 @@ server.listen(PORT, () => {
   console.log(`>>> Server is up and running on port ${PORT}`)
 });
 
-export { io, users, pairing, maxConnections};
+export { io, users, pairing, maxConnections };
